@@ -1,0 +1,1 @@
+- [Perceptron-LLM-Wiki](./Perceptron-LLM-Wiki) : 99% less cost + 99% fastest -> against the Karpathy's llm wiki knowledge
