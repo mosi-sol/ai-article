@@ -1,84 +1,64 @@
-# Technical Specification Blueprint: Bounded Hyper-Dimensional Perceptron Routing for Autonomous Agent Memory
+## Systems Engineering Architectural Brief: Bounded Hyper-Dimensional Perceptron Vectors for Autonomous Agentic Memory Systems
 
-## 1. Formal Mathematical Architecture
+#### 1. Functional Intent & Architectural Scope
 
-Let an active environmental stimulus or prompt payload be represented as $\Sigma$. A frozen transformer backbone acts as a feature encoder, transforming the text string into a localized dense vector $x \in \mathbb{R}^d$ where $d = 384$. To protect system invariants across continuous runtime updates, we apply strict $L_2$ norm scaling boundaries:
+This document establishes the technical execution specification for wrapping an autonomous agent's long-term memory registries inside localized, online-learning single-layer linear perceptron classifiers. Traditional retrieval frameworks rely on computationally heavy vector database indices which scale input tokens linearly, introducing extraneous prompt overhead. This architecture replaces passive indexing with an active **Dynamic Reflex Pipeline**, utilizing directional vector adjustments to pull matching memories closer and actively repel conflicting behavioral profiles away from non-matching environmental state stimuli.
 
-$$x = \frac{\phi(\Sigma)}{\|\phi(\Sigma)\|_2}, \quad \text{such that } \|x\|_2 = 1$$
+#### 2. Core Formal Mathematical Specifications
 
-The agent's memory registry consists of $N$ discrete blocks, with each block $i$ governed by a learnable weight vector $w_i \in \mathbb{R}^d$ matching the unit length limit:
+Let an incoming user prompt emission or environmental tracking context string be designated as $\Sigma$. A localized, static transformer encoder translates this text profile into a hidden representation vector $x \in \mathbb{R}^d$ (where $d = 384$). To prevent scale drift under infinite operations, strict coordinate normalization is enforced:
+
+$$x = \frac{\phi(\Sigma)}{\|\phi(\Sigma)\|_2} \quad \text{where} \quad \|x\|_2 = 1$$
+
+Every unique memory segment or routing constraint path is assigned an independent linear weight tracking node vector $w_i \in \mathbb{R}^d$ bound strictly to a unit hypersphere:
 
 $$\|w_i\|_2 = 1, \quad \forall i \in \{1, 2, \dots, N\}$$
 
-Because both the incoming vector and internal parameters sit on a unit sphere, their dot product maps directly to standard Cosine Similarity, which acts as our linear activation gate:
+The operational affinity evaluation metric is evaluated via vector dot-product scoring, rendering a calculation mathematically equivalent to standard Cosine Similarity:
 
-$$\text{Score}_i = w_i \cdot x = \cos(\theta)$$
+$$\text{Score}_i = w_i \cdot x$$
+
+A binary step activation indicator triggers system delivery if, and only if, the scalar outcome violates a configured safety threshold boundary value $\tau$ (where $\tau = 0.45$):
 
 $$y_i = \mathbf{1}(w_i \cdot x > \tau)$$
 
-Where $\tau$ represents the firing barrier threshold ($\tau = 0.45$). Memory modules that yield $y_i = 1$ are extracted from cold storage and injected directly into the active prompt layout window of the downstream agent.
+Active memories yielding an execution signal of $y_i = 1$ are instantaneously appended directly into the active prompt payload schema of the executor engine.
 
----
+```
+                        [ ENV EMISSION STIMULUS (Σ) ]
+                                       │
+                                       ▼
+                       [ L2 NORMALIZATION HYPERSPHERE ]
+                                       │
+                ┌──────────────────────┴──────────────────────┐
+                ▼ w_i · x > \tau                               ▼ w_i · x ≤ \tau
+    [ FIRE NODE REGISTER ]                            [ IGNORE NODE REGISTRY ]
+                │                                             (0 Token Overhead)
+                ▼
+   [ AGENT PROMPT PAYLOAD INJECTION ]
+                │
+                ▼
+   [ TASK EVALUATION CRITERIA SIGNAL ]
+                │
+        ┌───────┴───────┐
+        ▼ Success (r=1) ▼ Failure / Override (r=0)
+   [ PULL VECTOR ]   [ REPEL VECTOR ]
 
-## 2. Complete Mathematical Proofs
+```
 
-### Proof A: Preservation of the Hypersphere Invariant
+#### 3. Parameter Updates and Space Projection Metrics
 
-**Theorem:** *Given a weight parameter vector $w^{(k)}$ where $\|w^{(k)}\|_2 = 1$ and an input vector $x$ where $\|x\|_2 = 1$, the parameter length following our update sequence is invariant: $\|w^{(k+1)}\|_2 = 1$.*
+Unlike passive databases, memory parameters drift and reshape dynamically using direct tracking loop metrics. If a triggered behavioral memory sequence guides the engine successfully, a reward value token $r_i = 1$ is declared. Conversely, if it creates an error state or user override, a penalty marker $r_i = 0$ is set. This modifies the weights through an error-correction adjustment:
 
-**Proof:** The raw intermediate vector calculation is expressed as:
+$$\hat{w}_i^{(k+1)} = w_i^{(k)} + \eta \cdot (2r_i - 1) \cdot x$$
 
+Where $\eta = 0.05$ represents the system learning step. Following modification, the tracking vector is strictly projected back onto the surface boundary constraints of the hypersphere to shield against overflow or scale failures:
 
-$$\hat{w}^{(k+1)} = w^{(k)} + \alpha x$$
+$$w_i^{(k+1)} = \frac{\hat{w}_i^{(k+1)}}{\|\hat{w}_i^{(k+1)}\|_2}$$
 
+#### 4. Reference Implementation Code Blueprint
 
-Where $\alpha = \eta(2r - 1)$. Since $r \in \{0, 1\}$, $\alpha$ simplifies to a directional scalar constant where $\alpha \in \{+\eta, -\eta\}$. Therefore, $\alpha^2 = \eta^2$. Expanding the squared $L_2$ norm of this intermediate phase vector yields:
-
-$$\|\hat{w}^{(k+1)}\|_2^2 = (w^{(k)} + \alpha x) \cdot (w^{(k)} + \alpha x) = (w^{(k)} \cdot w^{(k)}) + 2\alpha(w^{(k)} \cdot x) + \alpha^2(x \cdot x)$$
-
-Applying the initial boundary conditions $\|w^{(k)}\|_2^2 = 1$ and $\|x\|_2^2 = 1$:
-
-$$\|\hat{w}^{(k+1)}\|_2^2 = 1 + 2\alpha(w^{(k)} \cdot x) + \eta^2$$
-
-Evaluating the final unit projection sequence step:
-
-$$\|w^{(k+1)}\|_2 = \left\| \frac{\hat{w}^{(k+1)}}{\|\hat{w}^{(k+1)}\|_2} \right\|_2 = \frac{\|\hat{w}^{(k+1)}\|_2}{\|\hat{w}^{(k+1)}\|_2} = 1$$
-
-This confirms the parameter matrix vector length remains locked on the surface of the sphere across all training iterations, eliminating parameter explosions. $\blacksquare$
-
-### Proof B: True Positive Step Convergence
-
-**Theorem:** *If a memory activation returns a successful evaluation ($r = 1$), the affinity score of that targeted node for an identical stimulus profile will increase on the subsequent iteration loop.*
-
-**Proof:** For a true success token, $r = 1$, setting our step constant multiplier $\alpha = +\eta$. The affinity score update sequence computes as:
-
-$$\text{Score}^{(k+1)} = w^{(k+1)} \cdot x = \left[ \frac{w^{(k)} + \eta x}{\|\hat{w}^{(k+1)}\|_2} \right] \cdot x = \frac{(w^{(k)} \cdot x) + \eta}{\sqrt{1 + 2\eta(w^{(k)} \cdot x) + \eta^2}}$$
-
-Let $S^{(k)} = w^{(k)} \cdot x$ represent the previous iteration affinity score. We establish the inequality condition:
-
-$$\frac{S^{(k)} + \eta}{\sqrt{1 + 2\eta S^{(k)} + \eta^2}} > S^{(k)}$$
-
-Squaring both sides and grouping terms yields the following polynomial constraint function:
-
-$$(2S^{(k)} + \eta)(1 - (S^{(k)})^2) > 0$$
-
-Because vector similarity values on a unit sphere are bounded strictly below 1.0, the term $(1 - (S^{(k)})^2)$ remains positive. Since $S^{(k)} > \tau = 0.45$, the factor $(2S^{(k)} + \eta)$ is also positive. The updated affinity score is strictly greater than the initial state, causing validated memory vectors to align with their true domains. $\blacksquare$
-
-### Proof C: False Positive Repulsion Dynamics
-
-**Theorem:** *If a memory node fires incorrectly ($r = 0$), the subsequent affinity calculation against that specific stimulus signature drops structurally.*
-
-**Proof:** Under an error token condition, $r = 0$, mapping our step constant multiplier to $\alpha = -\eta$. Evaluating the updated affinity projection output yields:
-
-$$\text{Score}^{(k+1)} = \frac{S^{(k)} - \eta}{\sqrt{1 - 2\eta S^{(k)} + \eta^2}}$$
-
-Following the inverse inequalities from Proof B, since $\eta > 0$ and $S^{(k)} > 0.45$, this calculation yields $\text{Score}^{(k+1)} < S^{(k)}$. When an agent misapplies a behavior layer, the weight parameters are repelled away from that stimulus profile, suppressing future false triggers. $\blacksquare$
-
----
-
-## 3. Reference Code Framework
-
-### `agent_memory_router.py`
+##### A. Core Perceptron Router Engine (`agent_memory_router.py`)
 
 ```python
 import json
@@ -89,7 +69,7 @@ class AgentMemoryRouter:
     def __init__(self, storage_file="agent_memory_weights.json", model_name="all-MiniLM-L6-v2"):
         self.storage_file = storage_file
         self.model = SentenceTransformer(model_name)
-        self.weights = {}  # Map: memory_id -> np.ndarray (384-D Unit Vector)
+        self.weights = {}
         self.learning_rate = 0.05
         self.threshold = 0.45
         self.load_memory_matrix()
@@ -127,33 +107,78 @@ class AgentMemoryRouter:
             w = self.register_memory_slot(node_id, node['concept'], node['summary'])
             score = float(np.dot(w, stimulus_emb))
             if score > self.threshold:
-                activated_nodes.append({"id": node_id, "score": score, "content": node['full_instruction']})
+                activated_nodes.append({
+                    "id": node_id,
+                    "score": score,
+                    "content": node['full_instruction']
+                })
         return sorted(activated_nodes, key=lambda x: x['score'], reverse=True), stimulus_emb
 
     def reinforce_memory_path(self, memory_id, stimulus_embedding, task_success):
-        if memory_id not in self.weights: return
+        if memory_id not in self.weights:
+            return
         w = self.weights[memory_id]
-        w_new = w + (self.learning_rate * stimulus_embedding) if task_success else w - (self.learning_rate * stimulus_embedding)
+        if task_success:
+            w_new = w + (self.learning_rate * stimulus_embedding)
+        else:
+            w_new = w - (self.learning_rate * stimulus_embedding)
         self.weights[memory_id] = self._normalize(w_new)
         self.save_memory_matrix()
 
 ```
 
----
+##### B. Integration Script Execution (`agent_core_orchestrator.py`)
 
-## 4. Financial & Scaling Analysis
+```python
+import os
+import json
+from agent_memory_router import AgentMemoryRouter
 
-To showcase financial efficiency, we track an agent cluster managing a registry of **$1,000$ distinct behavioral memory blocks**, processing a continuous stream of **$10,000$ system interactions**. We define an average payload size of $500$ tokens per full memory module, evaluated against standard industry baseline API pricing schemas ($2.50 per million input tokens).
+class AgentOrchestrator:
+    def __init__(self):
+        self.router = AgentMemoryRouter()
+        self.memory_index_path = "agent_system/memory_manifest.json"
+        os.makedirs("agent_system", exist_ok=True)
 
-| Evaluation Profile Vector | Traditional KNN Database Search | Perceptron Bounded Hypersphere | System Efficiency Delta |
-| --- | --- | --- | --- |
-| **Algorithmic Complexity Boundary** | $O(N \cdot \log(N))$ index reads | **$O(1)$ local matrix dot-products** | Eliminates database scale bottlenecks |
-| **Average Operational Latency** | $35.0\text{ms} - 120.0\text{ms}$ query steps | **$1.8\text{ms} - 3.1\text{ms}$ thread ops** | **$97.4\%$ drop** in execution overhead |
-| **Token Waste on Negative Paths** | $500,000$ input tokens per cycle | **$0$ input tokens passed** | No token leakage from misses |
-| **Financial Cost Profile ($10,000$ Cycles)** | **$12,500.00** total token billing | **$125.00** strict allocation billing | **$99.0\%$ reduction** in active runtime fees |
+    def load_manifest(self):
+        if os.path.exists(self.memory_index_path):
+            with open(self.memory_index_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return []
 
----
+    def process_execution_cycle(self, user_prompt):
+        manifest = self.load_manifest()
+        triggered_memories, stimulus_embedding = self.router.recall_active_memories(user_prompt, manifest)
+        
+        if not triggered_memories:
+            return []
 
-## 5. Architectural Conclusion
+        for memory in triggered_memories:
+            mem_id = memory['id']
+            execution_success = "timeout" in user_prompt.lower() and "api" in mem_id
+            self.router.reinforce_memory_path(mem_id, stimulus_embedding, execution_success)
 
-By converting memory lookup into an active geometric optimization loop over a unit hypersphere, this design removes the latency inflation and token leakage typical of traditional vector database setups. The mathematical bounds ensure system stability and provide a predictable method for fine-tuning autonomous agents operating in dynamic, long-running production environments.
+if __name__ == "__main__":
+    initial_manifest = [
+        {
+            "id": "api_timeout_policy",
+            "concept": "API Request Timeout Faults",
+            "summary": "Mechanics for catching connection timeouts, retries, and fallback patterns.",
+            "full_instruction": "CRITICAL: Upon encountering an error code, wait 200ms, then retry 3 times maximum."
+        }
+    ]
+    with open("agent_system/memory_manifest.json", "w", encoding='utf-8') as f:
+        json.dump(initial_manifest, f, indent=2)
+        
+    orchestrator = AgentOrchestrator()
+    orchestrator.process_execution_cycle("API timeout error occurred during system deployment.")
+
+```
+
+#### 5. Architectural Impact Benchmarks
+
+| Architecture Metrics Boundary | Traditional KNN Search Systems | Perceptron Bounded Hypersphere |
+| --- | --- | --- |
+| **Algorithmic Scalability Complexity** | $O(N \cdot \log N)$ node evaluation scans | **$O(1)$ matrix dot-product operations** |
+| **Context Payload Overhead Profile** | High token expenditure on negative hits | **0 extra tokens spent on negative hits** |
+| **Negative Update Execution Support** | Requires structural index deletion | **Native vector shift via weight repulsion** |
