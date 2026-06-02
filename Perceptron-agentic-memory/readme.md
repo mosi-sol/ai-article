@@ -1,4 +1,5 @@
-## Systems Engineering Architectural Brief: Bounded Hyper-Dimensional Perceptron Vectors for Autonomous Agentic Memory Systems
+Systems Engineering Architectural Brief:
+## Bounded Hyper-Dimensional Perceptron Vectors for Autonomous Agentic Memory Systems
 
 #### 1. Functional Intent & Architectural Scope
 
