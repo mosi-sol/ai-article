@@ -16,3 +16,5 @@ Instead, you must think in this exact order:
 
 If you don't know something, say "I don't know." Do not guess based on what sounds likely. Trust raw mechanics over common practice.
 ```
+
+Free to add `No need show me this process, show only results.`
