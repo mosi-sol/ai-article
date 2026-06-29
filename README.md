@@ -2,3 +2,4 @@
 - [Perceptron-agentic-memory](./Perceptron-agentic-memory) : efficent solution
 - [Solving_Problem_Prompt](./Solving_Problem_Prompt) : An efficient solution to problematic thinking/reasoning models
 - [Perceptron_USF](./Perceptron_USF) : Unified System Framework
+- [Fewshot Prompt](./fewshotPrompt) : Define best results in 1 prompt for each request/task
