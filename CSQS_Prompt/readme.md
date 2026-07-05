@@ -1,3 +1,6 @@
+The McKinsey consultation firmware
+
+```
 [SITUATION]
 Act as an expert Senior Software Architect. I am designing a high-throughput, distributed data ingestion pipeline using Python, FastAPI, and PostgreSQL. You must answer in English.
 
@@ -12,3 +15,5 @@ The tool must allow me to visually map out our failure boundaries. It must inclu
 
 [SOLUTION]
 At the bottom of the page, include a "Compile Architecture Spec" component. As I interact with the sliders and checklists, the background JavaScript must dynamically compile my chosen configuration, risk metrics, and mitigation steps into a clean markdown block within a copyable text area. This block must serve as an explicit, self-contained prompt for our next turn to build the boilerplate code.
+
+```
