@@ -3,3 +3,4 @@
 - [Solving_Problem_Prompt](./Solving_Problem_Prompt) : An efficient solution to problematic thinking/reasoning models
 - [Perceptron_USF](./Perceptron_USF) : Unified System Framework
 - [Fewshot Prompt](./fewshotPrompt) : Define best results in 1 prompt for each request/task
+- [CSQS Prompt - Consultation Firm](./CSQS_Prompt) : Use as system prompt for chat-bot
