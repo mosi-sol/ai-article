@@ -7,3 +7,4 @@
 - [Solving_Problem_Prompt](./Solving_Problem_Prompt) : An efficient solution to problematic thinking/reasoning models
 - [Fewshot Prompt](./fewshotPrompt) : Define best results in 1 prompt for each request/task
 - [CSQS Prompt - Consultation Firm](./CSQS_Prompt) : Use as system prompt for chat-bot
+- [Boids Algorithm - Prompt](./boids_algo) : Live data analyzer, based on game thory (boids_algo)
