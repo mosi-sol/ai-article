@@ -8,3 +8,7 @@
 - [Fewshot Prompt](./fewshotPrompt) : Define best results in 1 prompt for each request/task
 - [CSQS Prompt - Consultation Firm](./CSQS_Prompt) : Use as system prompt for chat-bot
 - [Boids Algorithm - Prompt](./boids_algo) : Live data analyzer, based on game thory (boids_algo)
+
+#
+
+- [Talent & Experience & Swarm Logic](./Talent-Experience-Swarm_Logic) : Direct rationales and actionable "pivots" for the AI-agent world.
